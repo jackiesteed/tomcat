@@ -3,61 +3,21 @@ package com.jackiesteed.tomcat;
 import javax.servlet.*;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
 /**
- * @Created by  fangxue.zhang on 2014/12/20
+ * @Created by  fangxue.zhang on 2014/12/21
  */
-class Request implements ServletRequest {
+public class RequestFacade implements ServletRequest {
 
-    private InputStream inputStream;
-    private static final int BUFFER_SIZE = 2048;
-    private String uri;
+    private ServletRequest request = null;
 
-    public Request(InputStream inputStream){
-        this.inputStream = inputStream;
+    public RequestFacade(ServletRequest request){
+        this.request = request;
     }
-
-    public void parse(){
-
-        StringBuffer request = new StringBuffer(BUFFER_SIZE);
-        int i;
-        byte[] buffer = new byte[BUFFER_SIZE];
-
-        try {
-            i = inputStream.read(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-            i = -1;
-        }
-
-        for(int j = 0; j < i; j++){
-            request.append((char)buffer[j]);
-        }
-        System.out.println(request.toString());
-        uri = parseUri(request.toString());
-    }
-
-    private String parseUri(String requestString){
-        int index1, index2;
-        index1 = requestString.indexOf(' ');
-        if(index1 != -1){
-            index2 = requestString.indexOf(' ', index1 + 1);
-            if(index2 > index1){
-                return requestString.substring(index1 + 1, index2);
-            }
-        }
-        return null;
-    }
-
-    public String getUri(){
-        return uri;
-    }
-
 
     @Override
     public Object getAttribute(String s) {

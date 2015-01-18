@@ -54,15 +54,27 @@ public class HttpServer {
 
                 Response response = new Response(outputStream);
                 response.setRequest(request);
-                response.sendStaticResource();
 
+                System.out.println("uri:   " + request.getUri());
+
+                if(request.getUri().startsWith("/servlet/")){
+
+//                    System.out.println("uri:   " + request.getUri());
+
+                    ServletProcessor servletProcessor = new ServletProcessor();
+                    servletProcessor.process(request, response);
+
+                }else{
+                    StaticResourceProcessor staticResourceProcessor = new StaticResourceProcessor();
+                    staticResourceProcessor.process(request, response);
+                }
                 socket.close();
 
                 shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
 
             } catch (IOException e) {
                 e.printStackTrace();
-                continue;
+                System.exit(1);
             }
         }
 
