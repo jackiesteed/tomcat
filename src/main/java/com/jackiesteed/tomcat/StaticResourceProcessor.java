@@ -1,18 +1,20 @@
 package com.jackiesteed.tomcat;
 
+
+import com.jackiesteed.tomcat.connector.http.HttpRequest;
+import com.jackiesteed.tomcat.connector.http.HttpResponse;
+
 import java.io.IOException;
 
-/**
- * @Created by  fangxue.zhang on 2014/12/21
- */
 public class StaticResourceProcessor {
 
-    public void process(Request request, Response response){
-        try{
-            response.sendStaticResource();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  public void process(HttpRequest request, HttpResponse response) {
+    try {
+      response.sendStaticResource();
     }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
 }
